@@ -1,0 +1,16 @@
+{{- $root := . -}}
+{{- range $i := until (int .Values.replicas) -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "\"%s-%s-%s-set-%s\"" $root.Chart.Name $root.Values.templateName $root.Chart.Name (toString $i) }}
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  volumeName: {{ $root.Chart.Name }}-volume
+  resources:
+    requests:
+      storage: 100Ki
+---
+{{- end }}
